@@ -1,0 +1,48 @@
+version: '3.7'
+services:
+  
+  #PHP Service
+  app:
+    build:
+      context: ./docker/php
+    container_name: app_php
+    restart: unless-stopped
+    environment:
+      SERVICE_NAME: app
+      SERVICE_TAGS: dev
+    volumes:
+      - ./repositories/symfony:/var/www/html
+
+  #Nginx Service
+  nginx:
+    image: openresty/openresty:alpine
+    container_name: app_nginx
+    restart: unless-stopped
+    volumes:
+      - ./docker/nginx/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf:cached
+      - ./repositories/angular/dist:/var/www/html/dist
+    ports:
+      - "80:80"
+      - "443:443"
+    hostname: ${DOMAIN_NAME}
+    networks:
+      default:
+        aliases:
+          - ${DOMAIN_NAME}
+
+  #MySQL Service
+  db:
+    container_name: app_db
+    restart: unless-stopped
+    build: 
+      context: ./docker/mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: app
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+      - ./initial-data/mysql:/docker-entrypoint-initdb.d:cached
+      - ./data/db:/var/lib/mysql:delegated

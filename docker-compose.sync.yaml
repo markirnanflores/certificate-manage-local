@@ -1,0 +1,15 @@
+version: "3.7"
+services:
+  nginx:
+    volumes:
+      - angular-sync:/var/www/html/dist
+
+  app:
+    volumes:
+      - symfony-sync:/var/www/html/app
+
+volumes:
+  angular-sync:
+    external: true
+  symfony-sync:
+    external: true

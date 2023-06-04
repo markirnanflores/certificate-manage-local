@@ -1,0 +1,12 @@
+.idea/
+.vscode/
+.DS_Store
+._.DS_Store
+**/.DS_Store
+**/._.DS_Store
+.env
+data/*/*
+.aliases
+.docker-sync/
+docker-compose.override.yml
+docker-compose.override.yaml

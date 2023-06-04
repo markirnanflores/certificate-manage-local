@@ -1,0 +1,18 @@
+version: "2"
+
+options:
+  max-attempt: 5
+  compose-file-path:
+    - 'docker-compose.yaml'
+    - 'docker-compose.sync.yaml'
+    - 'docker-compose.override.yaml'
+    - 'docker-compose.override.yml'
+
+syncs:
+  angular-sync:
+    sync_strategy: 'unison'
+    src: './repositories/angular/dist'
+
+  symfony-sync:
+    sync_strategy: 'unison'
+    src: './repositories/symfony'
