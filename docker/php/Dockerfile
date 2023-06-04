@@ -8,3 +8,6 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
     docker-php-ext-install pdo_mysql sockets && \
     apk del deps && \
     apk add --no-cache git
+RUN apk add --no-cache bash && \
+    curl -1sLf 'https://dl.cloudsmith.io/public/symfony/stable/setup.alpine.sh' | bash && \
+    apk add symfony-cli
